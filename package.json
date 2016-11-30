@@ -1,6 +1,6 @@
 {
   "name": "@intactile/redux-client-middleware",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A redux middleware handling async client actions",
   "main": "distribution/index.js",
   "scripts": {
