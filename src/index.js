@@ -14,12 +14,9 @@ export default function clientMiddleware(client) {
       next({ ...rest, type: REQUEST });
 
       const actionPromise = promise(client);
-      actionPromise.then(
-        result => next({ ...rest, result: result.body, type: SUCCESS }),
-        error => next({ ...rest, error, type: FAILURE }),
-      ).catch((error) => {
-        next({ ...rest, error, type: FAILURE });
-      });
+      const onSuccess = result => next({ ...rest, result: result.body, type: SUCCESS });
+      const onError = error => next({ ...rest, error, type: FAILURE });
+      actionPromise.then(onSuccess, onError).catch(onError);
 
       return actionPromise;
     }
