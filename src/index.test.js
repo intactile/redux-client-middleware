@@ -1,4 +1,4 @@
-import createClientMiddleware from './';
+import createClientMiddleware from "./";
 
 const client = {};
 const clientMiddleware = createClientMiddleware(client);
@@ -6,17 +6,17 @@ const clientMiddleware = createClientMiddleware(client);
 const createFakeStore = fakeData => ({
   getState() {
     return fakeData;
-  },
+  }
 });
 
-describe('redux.middleware.clientMiddleware', () => {
+describe("redux.middleware.clientMiddleware", () => {
   let dispatched;
   let promise;
   let resolePromise;
   let rejectPromise;
   const action = {
-    types: ['CREATE', 'CREATE_SUCCESS', 'CREATE_FAIL'],
-    promise: apiClient => apiClient.get('/create'),
+    types: ["CREATE", "CREATE_SUCCESS", "CREATE_FAIL"],
+    promise: apiClient => apiClient.get("/create")
   };
 
   beforeEach(() => {
@@ -33,27 +33,37 @@ describe('redux.middleware.clientMiddleware', () => {
     clientMiddleware(store)(actionAttempt => dispatched.push(actionAttempt))(a);
   };
 
-  it('should forward to next middleware other action', () => {
-    const otherAction = { type: 'OTHER' };
+  const handleDispatched = expectedActions => () => {
+    expect(dispatched).toEqual(expectedActions);
+  };
+
+  it("should forward to next middleware other action", () => {
+    const otherAction = { type: "OTHER" };
     dispatchAction({}, otherAction, dispatched);
     expect(dispatched).toEqual([otherAction]);
   });
 
-  it('should dispatch action started and action success if the promise is resolved', () => {
+  it("should dispatch action started and action success if the promise is resolved", () => {
     dispatchAction({}, action, dispatched);
-    expect(dispatched).toEqual([{ type: 'CREATE' }]);
-    resolePromise({ body: 'ok' });
-    return promise.then(() => {
-      expect(dispatched).toEqual([{ type: 'CREATE' }, { payload: 'ok', type: 'CREATE_SUCCESS' }]);
-    });
+    expect(dispatched).toEqual([{ type: "CREATE" }]);
+    resolePromise({ body: "ok" });
+    return promise.then(
+      handleDispatched([
+        { type: "CREATE" },
+        { payload: "ok", type: "CREATE_SUCCESS" }
+      ])
+    );
   });
 
-  it('should dispatch action started and action fail if the promise is rejected', () => {
+  it("should dispatch action started and action fail if the promise is rejected", () => {
     dispatchAction({}, action, dispatched);
-    expect(dispatched).toEqual([{ type: 'CREATE' }]);
-    rejectPromise('error');
-    return promise.catch(() => {
-      expect(dispatched).toEqual([{ type: 'CREATE' }, { error: 'error', type: 'CREATE_FAIL' }]);
-    });
+    expect(dispatched).toEqual([{ type: "CREATE" }]);
+    rejectPromise("error");
+    return promise.catch(
+      handleDispatched([
+        { type: "CREATE" },
+        { error: "error", type: "CREATE_FAIL" }
+      ])
+    );
   });
 });
