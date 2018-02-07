@@ -7,6 +7,7 @@
     "lint": "eslint src/*.js",
     "test": "jest",
     "test-cover": "jest --coverage",
+    "test-watch": "jest --watch",
     "build": "babel src --presets babel-preset-es2015 --out-dir distribution",
     "prepublish": "npm run build"
   },
@@ -34,8 +35,6 @@
     "jest": "^17.0.3"
   },
   "jest": {
-    "testPathDirs": [
-      "src"
-    ]
+    "testPathDirs": ["src"]
   }
 }

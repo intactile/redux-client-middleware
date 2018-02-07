@@ -33,6 +33,12 @@ describe('redux.middleware.clientMiddleware', () => {
     clientMiddleware(store)(actionAttempt => dispatched.push(actionAttempt))(a);
   };
 
+  it('should forward to next middleware other action', () => {
+    const otherAction = { type: 'OTHER' };
+    dispatchAction({}, otherAction, dispatched);
+    expect(dispatched).toEqual([otherAction]);
+  });
+
   it('should dispatch action started and action success if the promise is resolved', () => {
     dispatchAction({}, action, dispatched);
     expect(dispatched).toEqual([{ type: 'CREATE' }]);
