@@ -6,11 +6,11 @@ export default function clientMiddleware(client) {
     }
 
     const [REQUEST, SUCCESS, FAILURE] = types;
-    next({ ...rest, type: REQUEST });
+    next({ type: REQUEST, ...rest });
 
     const actionPromise = promise(client);
-    const onSuccess = result => next({ ...rest, payload: result.body, type: SUCCESS });
-    const onError = error => next({ ...rest, error, type: FAILURE });
+    const onSuccess = result => next({ payload: result.body, type: SUCCESS, ...rest });
+    const onError = error => next({ error, type: FAILURE, ...rest });
     actionPromise.then(onSuccess, onError).catch(onError);
 
     return actionPromise;
