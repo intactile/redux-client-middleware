@@ -1,4 +1,4 @@
-import createClientMiddleware from './';
+import createClientMiddleware from '.';
 
 const client = {};
 const clientMiddleware = createClientMiddleware(client);

@@ -1,11 +1,7 @@
 {
   "extends": ["airbnb-base"],
   "env": {
-    "jasmine": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "jest": true
   },
   "plugins": ["import"],
   "rules": {
@@ -16,7 +12,10 @@
     "no-this-before-super": 2,
     "prefer-spread": 2,
     "prefer-reflect": 2,
-    "no-warning-comments": [1, { "terms": ["todo", "fixme"], "location": "start" }],
+    "no-warning-comments": [
+      1,
+      { "terms": ["todo", "fixme"], "location": "start" }
+    ],
     "import/extensions": [1, { "js": "never" }],
     "import/no-extraneous-dependencies": [0],
     "no-param-reassign": 0,

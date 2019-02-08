@@ -1,8 +1,31 @@
 {
   "presets": [
-    "es2015"
+    [
+      "@babel/preset-env",
+      {
+        "loose": true,
+        "modules": false
+      }
+    ]
   ],
   "plugins": [
-    "transform-object-rest-spread"
-  ]
+    [
+      "@babel/plugin-proposal-object-rest-spread",
+      {
+        "loose": true
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "@babel/transform-modules-commonjs",
+          {
+            "loose": true
+          }
+        ]
+      ]
+    }
+  }
 }
